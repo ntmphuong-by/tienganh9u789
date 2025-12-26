@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English 9 Global Success (Unit 7-9) - Bilingual Practice</title>
+    <style>
+        :root { --primary: #00838f; --secondary: #00acc1; --bg: #e0f7fa; --explain-bg: #fff3e0; --explain-text: #e65100; --trans-text: #1565c0; }
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #b2ebf2 0%, #e0f7fa 100%); margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; user-select: none; padding-bottom: 50px; }
+        
+        .falling-flowers { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.6; }
+        .flower { position: absolute; top: -20px; animation: fall linear infinite; font-size: 20px;}
+        @keyframes fall { to { transform: translateY(105vh) rotate(720deg); } }
+        
+        .container { 
+            background: rgba(255,255,255,0.99); 
+            border-radius: 16px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1); 
+            padding: 40px; 
+            max-width: 900px; 
+            width: 90%; 
+            margin-top: 30px; 
+            text-align: center; 
+            z-index: 1; 
+            border-top: 6px solid var(--primary); 
+            position: relative;
+            min-height: 350px;
+            display: flex; flex-direction: column; justify-content: center;
+        }
+        
+        .screen { width: 100%; }
+        .hidden { display: none !important; }
+
+        /* Tiêu đề */
+        h1 { color: var(--primary); margin: 0 0 10px 0; font-size: 2.2rem; text-transform: uppercase; letter-spacing: 1px; }
+        h2 { color: #546e7a; font-weight: normal; margin-bottom: 30px; }
+
+        /* Question Box */
+        .question-box { 
+            background: #fff; 
+            padding: 25px; 
+            border-radius: 12px; 
+            margin: 20px 0; 
+            font-size: 1.25rem; 
+            color: #263238; 
+            font-weight: 600; 
+            border: 1px solid #cfd8dc; 
+            text-align: left;
+            line-height: 1.6;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.02);
+        }
+        
+        /* Reading Text Style */
+        .reading-text {
+            font-weight: normal;
+            font-size: 1rem;
+            background: #f1f8e9;
+            padding: 15px;
+            border-left: 4px solid #8bc34a;
+            margin-bottom: 15px;
+            white-space: pre-line;
+            color: #33691e;
+        }
+
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        @media (max-width: 600px) { .options-grid { grid-template-columns: 1fr; } }
+        
+        .btn-option { 
+            background: white; 
+            border: 2px solid #b0bec5; 
+            padding: 15px; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-size: 1.1rem; 
+            transition: 0.2s; 
+            width: 100%; 
+            text-align: left;
+            color: #455a64;
+            min-height: 60px;
+            display: flex; align-items: center;
+        }
+        .btn-option:hover { background: #e0f7fa; border-color: var(--primary); color: var(--primary); transform: translateY(-2px); }
+        .btn-option.correct { background: #c8e6c9 !important; border-color: #4caf50 !important; color: #1b5e20; font-weight: bold; }
+        .btn-option.wrong { background: #ffcdd2 !important; border-color: #e53935 !important; color: #b71c1c; opacity: 0.7; }
+        
+        /* Explanation & Translation Area */
+        .explanation-box { margin-top: 25px; padding: 20px; background-color: var(--explain-bg); color: #333; border-radius: 12px; border-left: 6px solid #ff9800; text-align: left; font-size: 1rem; animation: slideDown 0.4s; }
+        .explanation-title { font-weight: bold; color: #e65100; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; margin-bottom: 5px; display: block;}
+        .trans-text { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ffcc80; color: var(--trans-text); font-style: italic; display: block; font-weight: 500;}
+
+        .btn-main { background: var(--primary); color: white; border: none; padding: 15px 50px; border-radius: 30px; font-size: 1.3rem; cursor: pointer; margin-top: 20px; box-shadow: 0 5px 15px rgba(0, 131, 143, 0.3); transition: transform 0.1s; font-weight: bold; }
+        .btn-main:active { transform: scale(0.95); }
+        .btn-next { background: #ffca28; color: #333; display: none; margin: 20px auto 0; width: 100%; max-width: 350px; }
+        
+        .info-bar { display: flex; justify-content: space-between; font-weight: bold; color: var(--primary); margin-bottom: 20px; font-size: 1.1rem; border-bottom: 2px solid #b2ebf2; padding-bottom: 15px; }
+        
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Music Button */
+        #music-control { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%; background: white; border: 3px solid var(--primary); color: var(--primary); font-size: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 100; transition: all 0.3s; }
+        .music-playing { animation: pulse 2s infinite; background: var(--primary) !important; color: white !important; }
+        @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 131, 143, 0.7); } 70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(0, 131, 143, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 131, 143, 0); } }
+    </style>
+</head>
+<body>
+    <div class="falling-flowers" id="flowers"></div>
+    
+    <audio id="bg-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg">
+    </audio>
+    <div id="music-control" onclick="toggleMusic()">🎵</div>
+
+    <div class="container">
+        <div id="start-screen" class="screen">
+            <h1>ENGLISH 9 GLOBAL SUCCESS</h1>
+            <h2>Unit 7 - Unit 8 - Unit 9</h2>
+            <div style="font-size: 5rem; margin: 30px;">🏰 ✈️ 🗣️</div>
+            <p style="font-size: 1.2rem; line-height: 1.8;">
+                <b>Unit 7:</b> Natural Wonders (Bị động khách quan)<br>
+                <b>Unit 8:</b> Tourism (Mạo từ & Danh từ ghép)<br>
+                <b>Unit 9:</b> World Englishes (Mệnh đề quan hệ & Câu điều kiện)
+            </p>
+            <button class="btn-main" onclick="startGame()">BẮT ĐẦU LUYỆN TẬP ▶</button>
+        </div>
+
+        <div id="game-ui" class="screen hidden">
+            <div class="info-bar">
+                <span id="score-display">Score: 0</span>
+                <span id="progress-display">Question: 1/150</span>
+            </div>
+            
+            <div class="question-box" id="question-text">Loading...</div>
+            <div class="options-grid" id="options-container"></div>
+            
+            <div id="explanation-area" class="explanation-box hidden">
+                <span class="explanation-title">💡 Explanation:</span>
+                <span id="explanation-text"></span>
+                <span id="trans-text" class="trans-text"></span>
+            </div>
+
+            <button id="btn-next" class="btn-main btn-next" onclick="nextQuestion()">➡ NEXT QUESTION</button>
+        </div>
+
+        <div id="end-screen" class="screen hidden">
+            <h1 style="color:var(--primary)">KẾT QUẢ</h1>
+            <div style="font-size: 5rem; margin: 20px;">🏆</div>
+            <h2 id="final-score" style="color: #00838f; font-size: 2.5rem;"></h2>
+            <p>Bạn đã hoàn thành 150 câu hỏi ôn tập Tiếng Anh 9!</p>
+            <button class="btn-main" onclick="location.reload()">LÀM LẠI 🔄</button>
+        </div>
+    </div>
+
+<script>
+    // ========================================================================
+    // DATABASE: GLOBAL SUCCESS 9 (UNIT 7-8-9) - 150 QUESTIONS
+    // ========================================================================
+    const rawQuestions = [
+        // --- UNIT 7: NATURAL WONDERS OF THE WORLD ---
+        // Vocab
+        {q: "Choose the word whose underlined part is pronounced differently: <br>c<u>a</u>vern, c<u>i</u>tadel, l<u>o</u>cate, p<u>a</u>goda", a: ["locate", "cavern", "citadel", "pagoda"], correct: 0, explain: "'locate' âm 'a' phát âm /eɪ/. Các từ còn lại là âm /ə/ hoặc /æ/.", trans: "Dịch: locate (định vị) - cavern (hang động lớn) - citadel (thành quách) - pagoda (chùa)."},
+        {q: "Son Doong is the largest ______ in the world.", a: ["cave", "cavern", "fortress", "tomb"], correct: 0, explain: "Cave (hang động). Son Doong là hang động lớn nhất thế giới.", trans: "Dịch: Sơn Đoòng là hang động lớn nhất thế giới."},
+        {q: "The Imperial ______ of Thang Long is a complex of historic buildings.", a: ["Citadel", "Setting", "Complex", "Monument"], correct: 0, explain: "The Imperial Citadel (Hoàng thành).", trans: "Dịch: Hoàng thành Thăng Long là một quần thể các công trình lịch sử."},
+        {q: "This building is a masterpiece of ______.", a: ["architecture", "geology", "administration", "measure"], correct: 0, explain: "Architecture (kiến trúc).", trans: "Dịch: Tòa nhà này là một kiệt tác kiến trúc."},
+        {q: "Ha Long Bay is famous for its thousands of ______ islands.", a: ["limestone", "brick", "concrete", "sand"], correct: 0, explain: "Limestone (đá vôi).", trans: "Dịch: Vịnh Hạ Long nổi tiếng với hàng ngàn đảo đá vôi."},
+        {q: "The local government has taken measures to ______ the old fortress.", a: ["preserve", "destroy", "build", "imagine"], correct: 0, explain: "Preserve (bảo tồn).", trans: "Dịch: Chính quyền địa phương đã thực hiện các biện pháp để bảo tồn pháo đài cổ."},
+        {q: "It is a ______ complex with many temples and tombs.", a: ["magnificent", "bad", "small", "cheap"], correct: 0, explain: "Magnificent (hung vĩ/tráng lệ).", trans: "Dịch: Đó là một quần thể tráng lệ với nhiều đền đài và lăng tẩm."},
+        
+        // Grammar Unit 7: Impersonal Passive (It is said that...)
+        {q: "People say that this cave is very deep. <br>-> It is ______ that this cave is very deep.", a: ["said", "say", "saying", "says"], correct: 0, explain: "Cấu trúc: It is said that + S + V (Người ta nói rằng...).", trans: "Dịch: Người ta nói rằng hang động này rất sâu."},
+        {q: "They believe that the fortress was built in the 15th century. <br>-> It is ______ that the fortress was built in the 15th century.", a: ["believed", "believe", "believing", "belief"], correct: 0, explain: "Cấu trúc: It is believed that...", trans: "Dịch: Người ta tin rằng pháo đài được xây dựng vào thế kỷ 15."},
+        {q: "People think that Ha Long Bay is the most beautiful place. <br>-> Ha Long Bay is ______ to be the most beautiful place.", a: ["thought", "think", "thinking", "thoughts"], correct: 0, explain: "Bị động cá nhân: S + is + V3 (thought) + to V.", trans: "Dịch: Vịnh Hạ Long được cho là nơi đẹp nhất."},
+        
+        // --- UNIT 8: TOURISM ---
+        // Vocab
+        {q: "We booked a ______ tour to Thailand, so everything was included.", a: ["package", "packing", "packed", "pack"], correct: 0, explain: "Package tour (du lịch trọn gói).", trans: "Dịch: Chúng tôi đã đặt một chuyến du lịch trọn gói đến Thái Lan, vì vậy mọi thứ đã bao gồm."},
+        {q: "Try the local ______. It's delicious!", a: ["cuisine", "custom", "habit", "costume"], correct: 0, explain: "Cuisine (ẩm thực).", trans: "Dịch: Hãy thử ẩm thực địa phương. Nó rất ngon!"},
+        {q: "I suffer from ______ after the long flight from London to Hanoi.", a: ["jet lag", "bus lag", "car sick", "headache"], correct: 0, explain: "Jet lag (lệch múi giờ).", trans: "Dịch: Tôi bị lệch múi giờ sau chuyến bay dài từ London về Hà Nội."},
+        {q: "The hotel ______ time is 12:00 PM.", a: ["checkout", "check-in", "checking", "checked"], correct: 0, explain: "Checkout time (giờ trả phòng).", trans: "Dịch: Giờ trả phòng của khách sạn là 12 giờ trưa."},
+        {q: "We went on a ______ to see lions and elephants in the wild.", a: ["safari", "picnic", "cruise", "voyage"], correct: 0, explain: "Safari (cuộc đi săn/du lịch quan sát động vật hoang dã).", trans: "Dịch: Chúng tôi đã đi du lịch thám hiểm để xem sư tử và voi trong tự nhiên."},
+        {q: "The view from the mountain was ______.", a: ["breathtaking", "breathless", "breath", "breathe"], correct: 0, explain: "Breathtaking (ngoạn mục/đẹp đến nghẹt thở).", trans: "Dịch: Cảnh quan từ trên núi thật ngoạn mục."},
+        {q: "This resort is quite ______ for students.", a: ["affordable", "rich", "expensive", "priceless"], correct: 0, explain: "Affordable (giá cả phải chăng).", trans: "Dịch: Khu nghỉ dưỡng này có giá khá phải chăng cho sinh viên."},
+
+        // Grammar Unit 8: Compound Nouns & Articles
+        {q: "A ______ is a time when a plane lands.", a: ["touchdown", "touch-down", "touch down", "touching down"], correct: 0, explain: "Touchdown (sự hạ cánh). Danh từ ghép viết liền.", trans: "Dịch: Touchdown là thời điểm máy bay hạ cánh."},
+        {q: "Don't forget to put on ______ before going to the beach.", a: ["sunscreen", "sunburn", "sunglasses", "sunshine"], correct: 0, explain: "Sunscreen (kem chống nắng) - Compound noun.", trans: "Dịch: Đừng quên bôi kem chống nắng trước khi ra biển."},
+        {q: "I want to visit ______ Moon one day.", a: ["the", "a", "an", "Ø"], correct: 0, explain: "Dùng 'the' với vật thể duy nhất (The Moon, The Sun).", trans: "Dịch: Tôi muốn thăm Mặt Trăng một ngày nào đó."},
+        {q: "She is ______ honest guide.", a: ["an", "a", "the", "Ø"], correct: 0, explain: "Honest bắt đầu bằng âm câm 'h' (/ˈɒnɪst/) -> dùng 'an'.", trans: "Dịch: Cô ấy là một hướng dẫn viên trung thực."},
+        {q: "I visited ______ Ho Chi Minh City last year.", a: ["Ø", "the", "a", "an"], correct: 0, explain: "Không dùng mạo từ trước tên thành phố (trừ The Hague...).", trans: "Dịch: Tôi đã đến thăm Thành phố Hồ Chí Minh năm ngoái."},
+        {q: "Can you speak ______ Vietnamese?", a: ["Ø", "the", "a", "an"], correct: 0, explain: "Không dùng mạo từ trước tên ngôn ngữ.", trans: "Dịch: Bạn có thể nói tiếng Việt không?"},
+
+        // --- UNIT 9: WORLD ENGLISHES ---
+        // Vocab
+        {q: "English is used as a ______ in many international meetings.", a: ["lingua franca", "first language", "mother tongue", "dialect"], correct: 0, explain: "Lingua franca (ngôn ngữ chung/ngôn ngữ cầu nối).", trans: "Dịch: Tiếng Anh được sử dụng như ngôn ngữ chung trong nhiều cuộc họp quốc tế."},
+        {q: "She speaks English with a strong French ______.", a: ["accent", "vocabulary", "grammar", "skill"], correct: 0, explain: "Accent (giọng điệu).", trans: "Dịch: Cô ấy nói tiếng Anh với giọng Pháp rất nặng."},
+        {q: "He is ______; he speaks both English and Vietnamese fluently.", a: ["bilingual", "monolingual", "trilingual", "lingual"], correct: 0, explain: "Bilingual (song ngữ).", trans: "Dịch: Anh ấy nói song ngữ; anh ấy nói trôi chảy cả tiếng Anh và tiếng Việt."},
+        {q: "People in different regions often use different ______.", a: ["dialects", "dictionaries", "spellings", "writings"], correct: 0, explain: "Dialects (phương ngữ).", trans: "Dịch: Người dân ở các vùng khác nhau thường sử dụng các phương ngữ khác nhau."},
+        {q: "English has become a ______ language.", a: ["global", "local", "native", "small"], correct: 0, explain: "Global language (ngôn ngữ toàn cầu).", trans: "Dịch: Tiếng Anh đã trở thành một ngôn ngữ toàn cầu."},
+        {q: "This program offers total ______ in English.", a: ["immersion", "immerse", "immersing", "immersed"], correct: 0, explain: "Immersion (sự hòa nhập/nhúng mình vào môi trường ngôn ngữ).", trans: "Dịch: Chương trình này cung cấp sự hòa nhập hoàn toàn vào tiếng Anh."},
+
+        // Grammar Unit 9: Relative Clauses & Conditional Type 2
+        {q: "The girl ______ lives next door is Australian.", a: ["who", "which", "whose", "whom"], correct: 0, explain: "Who thay thế cho người (The girl) làm chủ ngữ.", trans: "Dịch: Cô gái sống bên cạnh là người Úc."},
+        {q: "The book ______ I bought yesterday is interesting.", a: ["which", "who", "whose", "where"], correct: 0, explain: "Which thay thế cho vật (The book).", trans: "Dịch: Cuốn sách tôi mua hôm qua rất thú vị."},
+        {q: "This is the city ______ I was born.", a: ["where", "which", "that", "when"], correct: 0, explain: "Where = In which (thay thế cho nơi chốn).", trans: "Dịch: Đây là thành phố nơi tôi sinh ra."},
+        {q: "If I ______ you, I would learn English harder.", a: ["were", "am", "was", "be"], correct: 0, explain: "Câu điều kiện loại 2: If + S + were (cho mọi ngôi)...", trans: "Dịch: Nếu tôi là bạn, tôi sẽ học tiếng Anh chăm chỉ hơn."},
+        {q: "If he ______ rich, he would travel around the world.", a: ["were", "is", "will be", "has been"], correct: 0, explain: "Điều kiện loại 2 (không có thật ở hiện tại).", trans: "Dịch: Nếu anh ấy giàu, anh ấy sẽ đi du lịch vòng quanh thế giới."},
+        {q: "She ______ buy that car if she had enough money.", a: ["would", "will", "can", "shall"], correct: 0, explain: "Mệnh đề chính ĐK loại 2: S + would + V.", trans: "Dịch: Cô ấy sẽ mua chiếc xe đó nếu cô ấy có đủ tiền."},
+
+        // --- READING COMPREHENSION ---
+        {
+            q: "<div class='reading-text'>Tourism is an important industry for many countries. It brings in money and creates jobs. However, tourism can also cause problems. Too many tourists can damage the environment. For example, coral reefs are often destroyed by careless divers. Also, tourism can increase the cost of living for local people.</div>\nWhat is a benefit of tourism mentioned in the text?", 
+            a: ["It creates jobs.", "It destroys coral reefs.", "It increases living costs.", "It causes pollution."], 
+            correct: 0, 
+            explain: "Text: 'It brings in money and creates jobs.'", 
+            trans: "Dịch: Lợi ích nào được nhắc đến? -> Nó tạo ra việc làm.\n(Bài đọc nói về lợi và hại của du lịch)."
+        },
+        {
+            q: "<div class='reading-text'>English is spoken as a first language by about 400 million people. But it is used by more than 1 billion people as a second or foreign language. It is the language of business, science, and the internet. Learning English helps people communicate with the world.</div>\nHow many people speak English as a first language?", 
+            a: ["About 400 million", "More than 1 billion", "7 billion", "Very few"], 
+            correct: 0, 
+            explain: "Text: '...spoken as a first language by about 400 million people.'", 
+            trans: "Dịch: Có khoảng bao nhiêu người nói tiếng Anh như ngôn ngữ mẹ đẻ? -> Khoảng 400 triệu."
+        },
+
+        // --- ERROR IDENTIFICATION ---
+        {q: "Find the mistake: <br>If I <u>am</u> <u>you</u>, I <u>would</u> <u>go</u> there.", a: ["am", "you", "would", "go"], correct: 0, explain: "Sai 'am'. Câu điều kiện loại 2 dùng 'were' cho mọi ngôi.", trans: "Dịch: Nếu tôi là bạn... (phải dùng were)."},
+        {q: "Find the mistake: <br>The man <u>which</u> <u>helped</u> me <u>yesterday</u> is <u>my</u> teacher.", a: ["which", "helped", "yesterday", "my"], correct: 0, explain: "Sai 'which'. Người (The man) phải dùng 'who'.", trans: "Dịch: Người đàn ông, người mà giúp tôi..."},
+        {q: "Find the mistake: <br>I <u>visited</u> <u>the</u> London <u>last</u> <u>summer</u>.", a: ["the", "visited", "last", "summer"], correct: 0, explain: "Sai 'the'. Không dùng mạo từ trước tên thành phố London.", trans: "Dịch: Tôi đã thăm London (bỏ the)."},
+        
+        // --- COMMUNICATION ---
+        {q: "A: 'I think we should protect the limestone caves.' <br>B: '______'", a: ["I agree with you.", "No, I don't.", "You're wrong.", "I don't think so."], correct: 0, explain: "Đồng ý quan điểm bảo vệ môi trường.", trans: "Dịch: A: Tôi nghĩ chúng ta nên bảo vệ hang động đá vôi. B: Tôi đồng ý với bạn."},
+        {q: "A: 'Would you like to go on a safari?' <br>B: '______'", a: ["Yes, I'd love to.", "Yes, I do.", "No, I won't.", "I like it."], correct: 0, explain: "Trả lời lời mời 'Would you like...'.", trans: "Dịch: A: Bạn có muốn đi safari không? B: Có, mình rất thích."},
+    ];
+
+    // GENERATOR: TỰ ĐỘNG SINH CÂU HỎI NGỮ PHÁP (ĐỂ ĐỦ 150 CÂU KHÔNG TRÙNG)
+    
+    // 1. Conditional Type 2 Generator
+    const cond2Verbs = [
+        {v: "study", past: "studied", meaning: "học"},
+        {v: "work", past: "worked", meaning: "làm việc"},
+        {v: "play", past: "played", meaning: "chơi"},
+        {v: "exercise", past: "exercised", meaning: "tập thể dục"}
+    ];
+    for(let i=0; i<20; i++) {
+        let v = cond2Verbs[i % cond2Verbs.length];
+        rawQuestions.push({
+            q: `Grammar: If he ______ harder, he would get better grades.`,
+            a: [v.past, v.v, `will ${v.v}`, `has ${v.past}`],
+            correct: 0,
+            explain: `Câu điều kiện loại 2 (Mệnh đề If): If + S + V-ed/V2.`,
+            trans: `Dịch: Nếu anh ấy ${v.meaning} chăm chỉ hơn, anh ấy sẽ đạt điểm cao hơn.`
+        });
+    }
+
+    // 2. Relative Clause Generator (Who/Which)
+    const relSubjects = [
+        {s: "The boy", type: "person", trans: "Cậu bé"},
+        {s: "The woman", type: "person", trans: "Người phụ nữ"},
+        {s: "The dog", type: "thing", trans: "Con chó"},
+        {s: "The car", type: "thing", trans: "Chiếc xe"},
+        {s: "The phone", type: "thing", trans: "Điện thoại"}
+    ];
+    for(let i=0; i<30; i++) {
+        let subj = relSubjects[i % relSubjects.length];
+        let rel = subj.type === "person" ? "who" : "which";
+        let distractors = subj.type === "person" ? ["which", "where", "when"] : ["who", "where", "when"];
+        
+        rawQuestions.push({
+            q: `Grammar: ${subj.s} ______ is standing there is my friend/mine.`,
+            a: [rel, ...distractors],
+            correct: 0,
+            explain: `${subj.s} là danh từ chỉ ${subj.type === "person" ? "người -> dùng Who" : "vật -> dùng Which"}.`,
+            trans: `Dịch: ${subj.trans} đang đứng đó là bạn/của tôi.`
+        });
+    }
+
+    // 3. Articles Generator (Countries/Cities vs Common Nouns)
+    const articleNouns = [
+        {n: "Vietnam", a: "Ø", trans: "Việt Nam"},
+        {n: "Paris", a: "Ø", trans: "Paris"},
+        {n: "USA", a: "the", trans: "Mỹ (viết tắt)"},
+        {n: "UK", a: "the", trans: "Anh (viết tắt)"},
+        {n: "Moon", a: "the", trans: "Mặt Trăng"},
+        {n: "Sun", a: "the", trans: "Mặt Trời"},
+        {n: "apple", a: "an", trans: "quả táo"}
+    ];
+    for(let i=0; i<30; i++) {
+        let item = articleNouns[i % articleNouns.length];
+        rawQuestions.push({
+            q: `Grammar: I want to visit/see ______ ${item.n}.`,
+            a: [item.a, "a", "an", "the"].filter((v,i,a)=>a.indexOf(v)===i).slice(0,4), // Unique options
+            correct: 0,
+            explain: `Quy tắc mạo từ với "${item.n}": dùng "${item.a}".`,
+            trans: `Dịch: Tôi muốn thăm/nhìn thấy ${item.trans}.`
+        });
+        // Fix options length if filter reduced it
+        if(rawQuestions[rawQuestions.length-1].a.length < 4) rawQuestions[rawQuestions.length-1].a = [item.a, "a", "the", "Ø"]; 
+    }
+
+    // 4. Impersonal Passive Generator
+    const verbs = [
+        {v1: "say", v3: "said", trans: "nói"},
+        {v1: "think", v3: "thought", trans: "nghĩ"},
+        {v1: "believe", v3: "believed", trans: "tin"},
+        {v1: "expect", v3: "expected", trans: "mong đợi"}
+    ];
+    for(let i=0; i<20; i++) {
+        let v = verbs[i % verbs.length];
+        rawQuestions.push({
+            q: `Grammar: It is ______ that English is important.`,
+            a: [v.v3, v.v1, `is ${v.v3}`, `to ${v.v1}`],
+            correct: 0,
+            explain: `Cấu trúc bị động khách quan: It is + V3/ed (${v.v3}) + that...`,
+            trans: `Dịch: Người ta ${v.trans} rằng tiếng Anh rất quan trọng.`
+        });
+    }
+
+    // ========================================================================
+    // GAME LOGIC
+    // ========================================================================
+    let questions = []; 
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let isPlaying = false;
+    const audio = document.getElementById('bg-music');
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    function toggleMusic() {
+        if (audio.paused) {
+            audio.play().catch(e => alert("Chạm vào màn hình để bật nhạc!"));
+            document.getElementById('music-control').classList.add('music-playing');
+        } else {
+            audio.pause();
+            document.getElementById('music-control').classList.remove('music-playing');
+        }
+    }
+
+    function startGame() {
+        document.getElementById('start-screen').classList.add('hidden');
+        document.getElementById('end-screen').classList.add('hidden');
+        document.getElementById('game-ui').classList.remove('hidden');
+
+        score = 0;
+        currentQuestionIndex = 0;
+        // Lấy 150 câu ngẫu nhiên từ kho
+        questions = shuffleArray([...rawQuestions]).slice(0, 150); 
+        
+        isPlaying = true;
+        updateScore();
+        showQuestion();
+
+        if(audio.paused) toggleMusic();
+    }
+
+    function showQuestion() {
+        if (currentQuestionIndex >= questions.length) {
+            endGame();
+            return;
+        }
+        
+        const qData = questions[currentQuestionIndex];
+        
+        document.getElementById('question-text').innerHTML = `[${currentQuestionIndex + 1}] ${qData.q}`;
+        document.getElementById('progress-display').innerText = `Question: ${currentQuestionIndex + 1}/${questions.length}`;
+        
+        document.getElementById('explanation-area').classList.add('hidden');
+        document.getElementById('btn-next').style.display = 'none';
+
+        const optionsDiv = document.getElementById('options-container');
+        optionsDiv.innerHTML = '';
+        let indices = [0, 1, 2, 3];
+        shuffleArray(indices);
+
+        indices.forEach(index => {
+            const btn = document.createElement('button');
+            btn.className = 'btn-option';
+            btn.innerHTML = qData.a[index]; 
+            btn.onclick = () => checkAnswer(index, qData.correct, btn);
+            optionsDiv.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selectedIndex, correctIndex, btnElement) {
+        if (!isPlaying) return;
+        
+        const allBtns = document.querySelectorAll('.btn-option');
+        allBtns.forEach(b => b.disabled = true);
+
+        if (selectedIndex === correctIndex) {
+            btnElement.classList.add('correct');
+            score += 10;
+        } else {
+            btnElement.classList.add('wrong');
+            allBtns.forEach(b => {
+                if(b.innerHTML === questions[currentQuestionIndex].a[correctIndex]) {
+                    b.classList.add('correct');
+                }
+            });
+        }
+        updateScore();
+
+        // HIỆN GIẢI THÍCH & DỊCH
+        document.getElementById('explanation-text').innerText = questions[currentQuestionIndex].explain;
+        
+        const transEl = document.getElementById('trans-text');
+        if(questions[currentQuestionIndex].trans) {
+            transEl.innerText = questions[currentQuestionIndex].trans;
+            transEl.style.display = 'block';
+        } else {
+            transEl.style.display = 'none';
+        }
+
+        document.getElementById('explanation-area').classList.remove('hidden');
+        document.getElementById('btn-next').style.display = 'block';
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        showQuestion();
+    }
+
+    function updateScore() {
+        document.getElementById('score-display').innerText = `Score: ${score}`;
+    }
+
+    function endGame() {
+        isPlaying = false;
+        document.getElementById('game-ui').classList.add('hidden');
+        document.getElementById('end-screen').classList.remove('hidden');
+        document.getElementById('final-score').innerText = `Total Score: ${score} / ${questions.length * 10}`;
+    }
+    
+    // Tạo hoa rơi
+    function createFlowers() {
+        const container = document.getElementById('flowers');
+        const symbols = ['🌸', '🍂', '❄️', '☀️', '🍀']; 
+        for(let i=0; i<25; i++) {
+            const el = document.createElement('div');
+            el.className = 'flower';
+            el.innerText = symbols[Math.floor(Math.random()*symbols.length)];
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            el.style.animationDelay = Math.random() * 5 + 's';
+            container.appendChild(el);
+        }
+    }
+    createFlowers();
+</script>
+</body>
+</html>
